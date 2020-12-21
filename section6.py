@@ -64,7 +64,7 @@ def search(txt, pat):
             s += (n - badChar[ord(txt[s + n])] if s + n < m else 1)
             print(s)
         else:  # you know why you are here ?
-            # you are a bad charcter :((
+            # you are a bad character :((
             # we need to shift you so we can start over aren't we ?
             # notice that j is the index of the pattern
             # s is the index of the text
