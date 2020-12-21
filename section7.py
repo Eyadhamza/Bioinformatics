@@ -1,44 +1,68 @@
-def computeLPSArray(pattern):
-    lps = [0] * len(pattern)
-    j = 0
-    i = 1
-    while i < len(pattern):
-        if pattern[i] == pattern[j]:
-            j += 1
-            lps[i] = j
-            i += 1
-        else:
-            if j != 0:
-                j = lps[j - 1]
+
+# Python program for KMP Algorithm
+def KMPSearch(pat, txt):
+    lengthOfPattern = len(pat)
+    lengthOfText = len(txt)
+
+    # create lps[] that will hold the longest prefix suffix
+    # values for pattern
+    lps = [0] * lengthOfPattern
+    patternIndex = 0  # index for pat[]
+
+    # Preprocess the pattern (calculate lps[] array)
+    computeLPSArray(pat, lengthOfPattern, lps)
+
+    textIndex = 0  # index for txt[]
+    while textIndex < lengthOfText:
+        if pat[patternIndex] == txt[textIndex]:
+            textIndex += 1
+            patternIndex += 1
+
+        if patternIndex == lengthOfPattern:
+            print("Found pattern at index " + str(textIndex - patternIndex))
+            patternIndex = lps[patternIndex - 1]
+
+            # mismatch after patternIndex matches
+        elif textIndex < lengthOfText and pat[patternIndex] != txt[textIndex]:
+            # Do not match lps[0..lps[patternIndex-1]] characters,
+            # they will match anyway
+            if patternIndex != 0:
+                patternIndex = lps[patternIndex - 1]
             else:
-                lps[i] = 0
-                i += 1
-    return lps
+                textIndex += 1
 
 
-def KMP(pattern, text):
-    M = len(pattern)
-    N = len(text)
+def computeLPSArray(pat, lengthOfPattern, lps):
+    len = 0  # length of the previous longest prefix suffix
 
-    j = 0
-    i = 0
+    lps[0]  # lps[0] is always 0
+    patternIndex = 1
 
-    lps = computeLPSArray(pattern)
-    while i < N:
-        if pattern[j] == text[i]:
-            i += 1
-            j += 1
-        if j == M:
-            print("pattern is founded at index " + str(i - j))
-            j = lps[j - 1]
-        elif i < N and pattern[j] != text[i]:
-            if j != 0:
-                j = lps[j - 1]
+    # the loop calculates lps[i] for i = 1 to lengthOfPattern-1
+    while patternIndex < lengthOfPattern:  # please dont forget that lengthOfPattern is the length of the pattern
+        if pat[patternIndex] == pat[len]:
+            len += 1
+            lps[patternIndex] = len  # why ? remember the longest proper prefix
+
+            patternIndex += 1  # to process the next char in the pattern
+        else:  # why we are here ?
+            # because the characters didn't match so we need to caluclate
+            # if there are simmilarties in the whole pattern
+
+            # This is tricky. Consider the example.
+            # AAACAAAA and i = 7. The idea is similar
+            # to search step.
+            if len != 0:
+                len = lps[len - 1]
+
+                # Also, note that we do not increment i here
             else:
-                i += 1
+                lps[patternIndex] = 0
+                patternIndex += 1
 
 
-text = "ABABDABACDS"
-pattern = "ABABCABAB"
-print(computeLPSArray(pattern))
-KMP(pattern, text)
+txt = "ABABDABACDABABCABAB"
+pat = "ABABCABAB"
+KMPSearch(pat, txt)
+
+# This code is contributed by Bhavya Jain
