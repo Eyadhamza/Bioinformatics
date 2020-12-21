@@ -34,10 +34,10 @@ def search(txt, pat):
     A pattern searching function that uses Bad Character
     Heuristic of Boyer Moore Algorithm
     '''
-    n = len(pat)
-    m = len(txt)
+    n = len(pat)  # length of the pattern
+    m = len(txt)  # length of the text
 
-    badChar = badCharHeuristic(pat, n)
+    badChar = badCharHeuristic(pat, n)  # we construct the bad character table
 
     s = 0
     while s <= m - n:  # we will loop until the latest alignment option
@@ -49,17 +49,27 @@ def search(txt, pat):
         # so we will start from the end then we will see if the char is good
         # we will see the next character
         # until we catch the bad character that caused the mismatch
-        while j >= 0 and pat[j] == txt[s + j]: # this checks if its good (it matches)
+        while j >= 0 and pat[j] == txt[s + j]:  # this checks if its good (it matches)
             j -= 1
 
-        if j < 0: # if you reached here it means that every character passed
+        if j < 0:  # if you reached here it means that every character passed
             # the previous loop right ?
             # if not? you are not lucky go to the else please
             print("Pattern occur at index = {}".format(s))
 
+            # congrats !!!
+            # now we found an occurrence find the next one now ..
+            # using the bad character table constructed with the badCharHeuristic
+            # method we can calculate how many shifts we will make
             s += (n - badChar[ord(txt[s + n])] if s + n < m else 1)
             print(s)
-        else:
+        else:  # you know why you are here ?
+            # you are a bad charcter :((
+            # we need to shift you so we can start over aren't we ?
+            # notice that j is the index of the pattern
+            # s is the index of the text
+            # using the bad character table constructed with the badCharHeuristic
+            # method we can calculate how many shifts we will make
             s += max(1, j - badChar[ord(txt[s + j])])
             print(s)
 
