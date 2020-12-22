@@ -38,6 +38,9 @@ def computeLPSArray(pattern, lengthOfPattern, longestProperPrefix):
     longestProperPrefix[0]  # longestProperPrefix[0] is always 0
     patternIndex = 1
 
+    # AAACAAAA
+    #[0,1,2,0  ] this is the LPS array
+
     # the loop calculates longestProperPrefix[i] for i = 1 to lengthOfPattern-1
     while patternIndex < lengthOfPattern:  # please dont forget that lengthOfPattern is the length of the pattern
         if pattern[patternIndex] == pattern[len]:
