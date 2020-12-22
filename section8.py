@@ -1,70 +1,42 @@
-# Following program is the python implementation of
-# Rabin Karp Algorithm given in CLRS book
 
-# d is the number of characters in the input alphabet
-d = 256
+alphabetSize = 256
 
 
-# pat  -> pattern
-# txt  -> text
-# q    -> A prime number
+def karp(pattern, text, primeNumber):
 
-def search(pattern, text, primeNumber):
-    lengthOfPattern = len(pattern)
-    lengthOfText = len(text)
-    i = 0
-    j = 0
-    patternHash = 0  # hash value for pattern
-    textHash = 0  # hash value for txt
-    h = 1
-
-    # The value of h would be "pow(d, M-1)%q"
-    for i in range(lengthOfPattern - 1):
-        h = (h * d) % primeNumber
-
-        # Calculate the hash value of pattern and first window
-    # of text
-    for i in range(lengthOfPattern):
-        patternHash = (d * patternHash + ord(pattern[i])) % primeNumber
-        textHash = (d * textHash + ord(text[i])) % primeNumber
-
-        # Slide the pattern over text one by one
-    for i in range(lengthOfText - lengthOfPattern + 1):
-        # Check the hash values of current window of text and
-        # pattern if the hash values match then only check
-        # for characters on by one
+    patternLength = len(pattern)
+    textLength = len(text)
+    patternHash = 0 # Hash value for the pattern
+    textHash = 0 # hash value for the text
+    for i in range(patternLength):
+        # 256^0*ascii+s56^1*ascii.........
+        # we calculate each hash value in the first loop
+        patternHash = (alphabetSize * patternHash + ord(pattern[i])) % primeNumber
+        textHash = (alphabetSize * textHash + ord(text[i])) % primeNumber
+    # the second loop we loop over all alignments
+    for i in range(textLength - patternLength + 1):
+        # if the two hashes are equal it means they are similar
         if patternHash == textHash:
-            # Check for characters one by one
-            for j in range(lengthOfPattern):
+            # if they are similar we make sure that the characters are equal
+            for j in range(patternLength):
                 if text[i + j] != pattern[j]:
                     break
-                else:
-                    j += 1
+            # each time we find a match we increment the value of j
+            j += 1
+            if j == patternLength: # if the number of j = the length
+                print("pattern is found at index " + str(i))
 
-            # if patternHash == textHash and pat[0...M-1] = txt[i, i+1, ...i+M-1]
-            if j == lengthOfPattern:
-                print("Pattern found at index " + str(i))
+        # if the previous window didn't match the text we will calculate the next
+        # window using the formula :
+        if i < textLength - patternLength:
+            textHash = (alphabetSize * (textHash - pow(alphabetSize, patternLength - 1) * ord(text[i])) + ord(text[i + patternLength])) % primeNumber
 
-                # Calculate hash value for next window of text: Remove
-        # leading digit, add trailing digit
-        if i < lengthOfText - lengthOfPattern:
-            textHash = (d * (textHash - ord(text[i]) * h) + ord(text[i + lengthOfPattern])) % primeNumber
-
-            # We might get negative values of textHash, converting it to
-            # positive
+            # sometimes we can get negative values so this fixes it ..
             if textHash < 0:
                 textHash = textHash + primeNumber
 
-            # Driver Code
 
-
-txt = "GEEKS FOR GEEKS"
-pat = "GEEK"
-
-# A prime number
+text = "THERE WOULD HAVE BEEN A TIME FOR SUCH A WORLD"
+pattern = "WORLD"
 q = 101
-
-# Function Call
-search(pat, txt, q)
-
-# This code is contributed by Bhavya Jain
+karp(pattern, text, q)
