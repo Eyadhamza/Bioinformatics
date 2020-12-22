@@ -41,7 +41,7 @@ def phred33ToQ(qual):
 
 
 # shall we try it to make sure ?
-print(phred33ToQ('#'))
+print(phred33ToQ('@'))
 
 
 # it's time we viualize these stuff
