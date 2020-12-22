@@ -2,7 +2,7 @@ LPS algorithm
 
 pat[] = "AAACAAAA"
 
-len = 0, i  = 0.
+len = 0, i  = 0..
 lps[0] is always 0, we move
 to i = 1
 
