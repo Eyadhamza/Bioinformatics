@@ -113,3 +113,5 @@ seq1 = "GATTACA"
 seq2 = "GCATGCT"
 # call the method
 needle(seq1, seq2)
+
+# لطيفة صح ؟
