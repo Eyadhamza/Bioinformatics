@@ -43,8 +43,12 @@ def needle(firstSequence, secondSequence):
     # -6
     # -7
     # now we must calculate the rest of the values
+    # we loop over each element in a nested loop
+    # we loop from 1 because we know that the first cell is 0
+    # we loop until the latest index which is the length + 1
     for i in range(1, firstSequenceLength + 1):
         for j in range(1, secondSequenceLength + 1):
+
             diagonal = scores[i - 1][j - 1] + match_score(firstSequence[i - 1], secondSequence[j - 1])
             up = scores[i - 1][j] + gap
             left = scores[i][j - 1] + gap
