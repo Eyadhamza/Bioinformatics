@@ -31,6 +31,7 @@ def needle(firstSequence, secondSequence):
     scoresMatrix = np.zeros((firstSequenceLength + 1, secondSequenceLength + 1), dtype=int)
     for i in range(0, firstSequenceLength + 1):
         scoresMatrix[i][0] = gap * i
+
     for j in range(0, secondSequenceLength + 1):
         scoresMatrix[0][j] = gap * j
     # we would have this matrix (المثال الي في المحاضرة )
@@ -42,13 +43,14 @@ def needle(firstSequence, secondSequence):
     # -5
     # -6
     # -7
+
     # now we must calculate the rest of the values
     # we loop over each element in a nested loop
     # we loop from 1 because we know that the first cell is 0
     # we loop until the latest index which is the length + 1
     for i in range(1, firstSequenceLength + 1):
         for j in range(1, secondSequenceLength + 1):
-            # we calculate three values and then we choose the maximum among them
+            # we calculate three val    ues and then we choose the maximum among them
 
             # the value of the diagonal + the match score value of the two characters
             diagonal = scoresMatrix[i - 1][j - 1] + match_score(firstSequence[i - 1], secondSequence[j - 1])
