@@ -12,10 +12,10 @@ NO_OF_CHARS = 256
 
 
 def badCharHeuristic(patt, size):
-    '''
+    """
     The preprocessing function for
     Boyer Moore's bad character heuristic
-    '''
+    """
 
     # Initialize all occurrence as -1
     badChar = [-1] * NO_OF_CHARS
@@ -30,10 +30,10 @@ def badCharHeuristic(patt, size):
 
 
 def search(txt, pattern):
-    '''
+    """
     A pattern searching function that uses Bad Character
     Heuristic of Boyer Moore Algorithm
-    '''
+    """
     lengthOfPattern = len(pattern)  # length of the pattern
     lengthOfText = len(txt)  # length of the text
 
